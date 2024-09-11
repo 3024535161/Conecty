@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Messaging System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0f7fa;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #00796b;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #00796b;
+            color: #ffffff;
+            margin: 5px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        textarea {
+            width: calc(100% - 24px);
+            height: 120px;
+            margin: 10px 0;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #messages {
+            margin-top: 20px;
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 12px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            word-wrap: break-word;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .received {
+            background-color: #b2dfdb;
+            color: #00796b;
+            text-align: left;
+        }
+
+        .sent {
+            background-color: #c8e6c9;
+            color: #388e3c;
+            text-align: right;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            textarea {
+                width: calc(100% - 20px);
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Messaging System</h1>
+        <button id="startBtn">Start Messaging</button>
+        <div id="messageArea" class="hidden">
+            <textarea id="messageInput" placeholder="Type your message here..."></textarea>
+            <button id="sendMessageBtn">Send Message</button>
+            <div id="messages"></div>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const messageArea = document.getElementById('messageArea');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const messagesDiv = document.getElementById('messages');
+
+        // Show message input area
+        startBtn.addEventListener('click', () => {
+            startBtn.classList.add('hidden');
+            messageArea.classList.remove('hidden');
+        });
+
+        // Handle sending messages
+        sendMessageBtn.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                const timestamp = new Date().toLocaleTimeString();
+
+                // Display sent message
+                messagesDiv.innerHTML += `
+                    <div class="message sent">
+                        <div>${message}</div>
+                        <div class="timestamp">${timestamp}</div>
+                    </div>
+                `;
+                messageInput.value = '';
+
+                // Simulate receiving a message after sending
+                setTimeout(() => {
+                    messagesDiv.innerHTML += `
+                        <div class="message received">
+                            <div>Received: ${message}</div>
+                            <div class="timestamp">${timestamp}</div>
+                        </div>
+                    `;
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom
+                }, 1000); // Simulate network delay
+            }
+        });
+    </script>
+</body>
+</html>
